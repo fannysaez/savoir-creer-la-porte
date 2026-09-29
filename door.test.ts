@@ -15,3 +15,14 @@ describe("Door", () => {
     expect(door.canBeCrossed()).toBe(true);
   });
 });
+
+describe("Door avec une clé", () => {
+  it("peut être ouverte si le joueur possède la bonne clé", () => {
+    const door = new Door(false, "red-key"); // fermée, nécessite la clé rouge
+
+    const success = door.open(["red-key"]);
+
+    expect(success).toBe(true);
+    expect(door.canBeCrossed()).toBe(true);
+  });
+});
