@@ -34,3 +34,16 @@ describe("Door avec une clé", () => {
   })
 
 });
+
+describe("Door - retrait de la clé de l'inventaire", () => {
+    it("retire la clé de l'inventaire une fois la porte ouverte", () => {
+        const door = new Door(false, "red-key");
+        const inventory = ["red-key", "torch"];
+
+        door.open(inventory);
+
+        expect(door.canBeCrossed()).toBe(true); //la porte est ouverte
+        expect(inventory).not.toContain("red-key"); //la clé utilisée est retirée
+        expect(inventory).toContain("torch"); // les autres objets sont conservés
+    });
+});
