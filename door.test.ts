@@ -8,10 +8,10 @@ describe("Door", () => {
     expect(door.canBeCrossed()).toBe(false);
   });
 
-
    it("peut être franchie lorsqu'elle est ouverte", () => {
     const door = new Door(true); // ouverte
 
+    // Une porte ouverte peut être franchie.
     expect(door.canBeCrossed()).toBe(true);
   });
 });
