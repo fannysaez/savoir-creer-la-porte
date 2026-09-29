@@ -14,9 +14,10 @@ export class Door {
   }
 
   // Ouvre la porte si le joueur possède la clé requise (ou si aucune clé n'est nécessaire)
-  open(playerKeys: string[]): boolean { //la méthode retourne un booleen
+  open(playerKeys: string[]): boolean {
+    //la méthode retourne un booleen
     if (this.requiredKey === null || playerKeys.includes(this.requiredKey)) {
-      this.isOpen = true;  // on ouvre la porte
+      this.isOpen = true; // on ouvre la porte
       return true; //sinon elle retourne false
     }
     return false; // le joueur n'a pas la bonne clé, la porte reste fermée

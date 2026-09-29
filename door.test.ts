@@ -21,7 +21,16 @@ describe("Door avec une clé", () => {
     const door = new Door(false, "red-key"); // fermée, nécessite la clé rouge
     const success = door.open(["red-key"]);
 
-    expect(success).toBe(true);
-    expect(door.canBeCrossed()).toBe(true);
+    expect(success).toBe(true);  // open() réussit, le joueur a la bonne clé
+    expect(door.canBeCrossed()).toBe(true); // la porte est ouverte, donc franchissable
   });
+
+  it("ne peut pas être ouverte si le joueur ne possède pas la bonne clé",() => {
+    const door = new Door(false, "red-key"); // fermée, nécessite la clé rouge
+    const success = door.open(["blue-key"]); // le joueur a la mauvaise clée
+
+    expect(success).toBe(false); // open() échoue, le joueur n'a pas la bonne clé
+    expect(door.canBeCrossed()).toBe(false); // la porte reste fermée, donc infranchissable
+  })
+
 });
