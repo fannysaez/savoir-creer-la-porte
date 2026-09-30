@@ -8,7 +8,7 @@ describe("Door", () => {
     expect(door.canBeCrossed()).toBe(false);
   });
 
-   it("peut être franchie lorsqu'elle est ouverte", () => {
+  it("peut être franchie lorsqu'elle est ouverte", () => {
     const door = new Door(true); // ouverte
 
     // Une porte ouverte peut être franchie.
@@ -21,59 +21,65 @@ describe("Door avec une clé", () => {
     const door = new Door(false, "red-key"); // fermée, nécessite la clé rouge
     const success = door.open(["red-key"]);
 
-    expect(success).toBe(true);  // open() réussit, le joueur a la bonne clé
+    expect(success).toBe(true); // open() réussit, le joueur a la bonne clé
     expect(door.canBeCrossed()).toBe(true); // la porte est ouverte, donc franchissable
   });
 
-  it("ne peut pas être ouverte si le joueur ne possède pas la bonne clé",() => {
+  it("ne peut pas être ouverte si le joueur ne possède pas la bonne clé", () => {
     const door = new Door(false, "red-key"); // fermée, nécessite la clé rouge
     const success = door.open(["blue-key"]); // le joueur a la mauvaise clée
 
     expect(success).toBe(false); // open() échoue, le joueur n'a pas la bonne clé
     expect(door.canBeCrossed()).toBe(false); // la porte reste fermée, donc infranchissable
-  })
-
+  });
 });
 
 describe("Door - retrait de la clé de l'inventaire", () => {
-    it("retire la clé de l'inventaire une fois la porte ouverte", () => {
-        const door = new Door(false, "red-key");
-        const inventory = ["red-key", "torch"];
+  it("retire la clé de l'inventaire une fois la porte ouverte", () => {
+    const door = new Door(false, "red-key");
+    const inventory = ["red-key", "torch"];
 
-        door.open(inventory);
+    door.open(inventory);
 
-        expect(door.canBeCrossed()).toBe(true); //la porte est ouverte
-        expect(inventory).not.toContain("red-key"); //la clé utilisée est retirée
-        expect(inventory).toContain("torch"); // les autres objets sont conservés
-    });
+    expect(door.canBeCrossed()).toBe(true); //la porte est ouverte
+    expect(inventory).not.toContain("red-key"); //la clé utilisée est retirée
+    expect(inventory).toContain("torch"); // les autres objets sont conservés
+  });
 });
 
 describe("Door avec une énigme", () => {
-    it("résout l'énigme avec la bonne réponse", () => {
-      const door = new Door(true, null,"azur");
-      const solved = door.solveRiddle("azur");
-      
-      expect(solved).toBe(true); // la bonne réponse résout l'énigme
-    });
+  it("résout l'énigme avec la bonne réponse", () => {
+    const door = new Door(true, null, "azur");
+    const solved = door.solveRiddle("azur");
 
-    it("ne résout pas l'énigme avec une mauvaise réponse", ()=> {
-      const door = new Door(true, null, "azur");
-      const solved = door.solveRiddle("rouge");
+    expect(solved).toBe(true); // la bonne réponse résout l'énigme
+  });
 
-      expect(solved).toBe(false); // une mauvaise réponse ne résout pas l'énigme
-    });
+  it("ne résout pas l'énigme avec une mauvaise réponse", () => {
+    const door = new Door(true, null, "azur");
+    const solved = door.solveRiddle("rouge");
 
-    it("ne peut pas être franchie si l'énigme n'est pas résolue", () => {
-      const door = new Door(true, null, "azur");
-      
-      expect(door.canBeCrossed()).toBe(false); // la porte est ouverte mais l'énigme n'est pas résolue
-    });
+    expect(solved).toBe(false); // une mauvaise réponse ne résout pas l'énigme
+  });
 
-    it("peut être franchie si l'énigme est résolue", () => {
-      const door = new Door(true, null, "azur");
-      door.solveRiddle("azur");
-      expect(door.canBeCrossed()).toBe(true); // la porte est ouverte est l'énigme est résolue
-    });
+  it("ne peut pas être franchie si l'énigme n'est pas résolue", () => {
+    const door = new Door(true, null, "azur");
 
+    expect(door.canBeCrossed()).toBe(false); // la porte est ouverte mais l'énigme n'est pas résolue
+  });
+
+  it("peut être franchie si l'énigme est résolue", () => {
+    const door = new Door(true, null, "azur");
+    door.solveRiddle("azur");
+    expect(door.canBeCrossed()).toBe(true); // la porte est ouverte est l'énigme est résolue
+  });
 });
 
+  describe("Door - énigme avec tentatives",() => {
+    it("incrémente le nombre de tentatives échouées après une mauvaise réponse", () =>{
+      const door = new Door(true, null, "azur");
+      door.solveRiddle("rouge");
+
+      expect(door.getFailedAttemps()).toBe(1); // une tentative échouée
+    });
+  });
