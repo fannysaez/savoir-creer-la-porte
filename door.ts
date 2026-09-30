@@ -17,11 +17,6 @@ export class Door {
     this.riddleSolved = false; // l'énigme n'est pas résolue par défaut
   }
 
-  // vérifie si la porte est franchie (uniquement si elle est ouverte)
-  canBeCrossed(): boolean {
-    return this.isOpen;
-  }
-
   // Ouvre la porte si le joueur possède la clé requise (ou si aucune clé n'est nécessaire)
   // Si une clé est utilisée, elle est retirée de l'inventaire du joueur
   open(playerKeys: string[]): boolean {
