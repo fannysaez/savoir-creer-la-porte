@@ -47,3 +47,13 @@ describe("Door - retrait de la clé de l'inventaire", () => {
         expect(inventory).toContain("torch"); // les autres objets sont conservés
     });
 });
+
+describe("Door avec une énigme", () => {
+    it("résout l'énigme avec la bonne réponse", () => {
+      const door = new Door(true, null,"azur");
+      const solved = door.solveRiddle("azur");
+      
+      expect(solved).toBe(true); // la bonne réponse résout l'énigme
+    });
+
+});
