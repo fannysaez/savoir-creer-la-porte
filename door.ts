@@ -3,6 +3,7 @@ export class Door {
   private requiredKey: string | null; // la clé nécessaire pour ouvrir la porte (null si aucune clé n'est requise)
   private riddleAnswer: string | null; // réponse correcte de l'énigme (null si aucune énigme)
   private riddleSolved: boolean; // indique si l'énigme a été résolue
+  private failedAttempts: number; // nombre de tentatives échouées pour cette énigme
 
   // créer une porte fermée par defaut, sauf indication contraire
   constructor(
@@ -15,6 +16,7 @@ export class Door {
     this.requiredKey = requiredKey; // mémorise la clé nécessaire pour ouvrir la porte
     this.riddleAnswer = riddleAnswer; // mémorise la réponse correcte de l'énigme
     this.riddleSolved = false; // l'énigme n'est pas résolue par défaut
+    this.failedAttempts = 0; // aucune tentative échouée au départ
   }
 
   // Ouvre la porte si le joueur possède la clé requise (ou si aucune clé n'est nécessaire)
@@ -35,13 +37,9 @@ export class Door {
     return true;
   }
 
-  //Tente de résoudre l'énigme avec la réponse fournie par le joueur
-  solveRiddle(answer: string): boolean {
-    if (answer !== this.riddleAnswer) {
-      return false; //mauvaise réponse, l'énigme reste non résolue
-    }
-    this.riddleSolved = true; //bonne réponse, l'énigme est résolue
-    return true;
+  // renvoie le nombre de tentatives échouées pour cette énigme
+  getFailedAttempts(): number {
+    return this.failedAttempts;
   }
 
   // vérifie si la porte est franchie (ouverte, et énigme résolue si elle en a une)
@@ -53,5 +51,21 @@ export class Door {
       return false; // une énigme existe mais n'est pas résolue, pas franchissable
     }
     return true; // porte ouverte, et pas d'énigme non résolue en travers
+  }
+
+  // Tente de résoudre l'énigme avec la réponse fournie par le joueur
+  solveRiddle(answer: string): boolean {
+    if (this.riddleSolved) {
+      return false; // déjà résolue, ne peut pas l'être une seconde fois
+    }
+    if (this.failedAttempts >= 3) {
+      return false; // trop de mauvaises réponses, l'énigme est verrouillée (conséquence)
+    }
+    if (answer !== this.riddleAnswer) {
+      this.failedAttempts++; // une tentative échouée de plus
+      return false; // mauvaise réponse, l'énigme reste non résolue
+    }
+    this.riddleSolved = true; // bonne réponse, l'énigme est résolue
+    return true;
   }
 }

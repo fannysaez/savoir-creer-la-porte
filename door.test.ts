@@ -80,6 +80,6 @@ describe("Door avec une énigme", () => {
       const door = new Door(true, null, "azur");
       door.solveRiddle("rouge");
 
-      expect(door.getFailedAttemps()).toBe(1); // une tentative échouée
+      expect(door.getFailedAttempts()).toBe(1); // une tentative échouée
     });
   });
