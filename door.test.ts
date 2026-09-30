@@ -75,11 +75,41 @@ describe("Door avec une énigme", () => {
   });
 });
 
-  describe("Door - énigme avec tentatives",() => {
-    it("incrémente le nombre de tentatives échouées après une mauvaise réponse", () =>{
-      const door = new Door(true, null, "azur");
-      door.solveRiddle("rouge");
+describe("Door - énigme avec tentatives", () => {
+  it("incrémente le nombre de tentatives échouées après une mauvaise réponse", () => {
+    const door = new Door(true, null, "azur");
+    door.solveRiddle("rouge");
 
-      expect(door.getFailedAttempts()).toBe(1); // une tentative échouée
-    });
+    expect(door.getFailedAttempts()).toBe(1); // une tentative échouée
   });
+
+  it("n'est pas verrouillée après 2 mauvaises réponses, une bonne réponse résout l'énigme", () => {
+    const door = new Door(true, null, "azur");
+    door.solveRiddle("rouge");
+    door.solveRiddle("vert");
+
+    const solved = door.solveRiddle("azur");
+
+    expect(solved).toBe(true); // 2 échecs seulement, la bonne réponse fonctionne encore
+  });
+
+  it("déclenche une conséquence après 3 mauvaises réponses : la bonne réponse ne fonctionne plus", () => {
+    const door = new Door(true, null, "azur");
+    door.solveRiddle("rouge");
+    door.solveRiddle("vert");
+    door.solveRiddle("jaune");
+
+    const solved = door.solveRiddle("azur");
+
+    expect(solved).toBe(false); // énigme verrouillée après 3 échecs
+  });
+
+  it("ne peut pas résoudre une énigme déjà résolue une seconde fois", () => {
+    const door = new Door(true, null, "azur");
+    door.solveRiddle("azur"); // première résolution, réussie
+
+    const solved = door.solveRiddle("azur"); // deuxième tentative
+
+    expect(solved).toBe(false); // déjà résolue, ne peut pas l'être une seconde fois
+  });
+});
