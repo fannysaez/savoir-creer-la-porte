@@ -63,5 +63,11 @@ describe("Door avec une énigme", () => {
       expect(solved).toBe(false); // une mauvaise réponse ne résout pas l'énigme
     });
 
+    it("ne peut pas être franchie si l'énigme n'est pas résolue", () => {
+      const door = new Door(true, null, "azur");
+      
+      expect(door.canBeCrossed()).toBe(false); // la porte est ouverte mais l'énigme n'est pas résolue
+    })
+
 });
 
