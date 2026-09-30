@@ -138,4 +138,15 @@ describe("Door avec une alarme", () => {
 
     expect(door.canBeCrossed()).toBe(true);
   });
+
+  it("une porte bloquée redevient franchissable une fois l'alarme désactivée", () => {
+  const alarm = new Alarm();
+  alarm.activate();
+  const door = new Door(true, null, null, alarm);
+  const inventory = ["alarm-code"];
+
+  alarm.deactivate(inventory);
+
+  expect(door.canBeCrossed()).toBe(true); // l'alarme est désactivée, la porte redevient franchissable
+});
 });
