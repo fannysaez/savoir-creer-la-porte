@@ -67,7 +67,13 @@ describe("Door avec une énigme", () => {
       const door = new Door(true, null, "azur");
       
       expect(door.canBeCrossed()).toBe(false); // la porte est ouverte mais l'énigme n'est pas résolue
-    })
+    });
+
+    it("peut être franchie si l'énigme est résolue", () => {
+      const door = new Door(true, null, "azur");
+      door.solveRiddle("azur");
+      expect(door.canBeCrossed()).toBe(true); // la porte est ouverte est l'énigme est résolue
+    });
 
 });
 

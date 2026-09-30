@@ -1,12 +1,16 @@
 export class Door {
   private isOpen: boolean; // indique si la porte est actuellement ouverte
   private requiredKey: string | null; // la clé nécessaire pour ouvrir la porte (null si aucune clé n'est requise)
-  private riddleAnswer: string | null;  // réponse correcte de l'énigme (null si aucune énigme)
+  private riddleAnswer: string | null; // réponse correcte de l'énigme (null si aucune énigme)
   private riddleSolved: boolean; // indique si l'énigme a été résolue
 
-
   // créer une porte fermée par defaut, sauf indication contraire
-  constructor(isOpen: boolean = false, requiredKey: string | null = null, riddleAnswer: string | null = null) { // initialise l'état de la porte, la clé et l'énigme
+  constructor(
+    isOpen: boolean = false,
+    requiredKey: string | null = null,
+    riddleAnswer: string | null = null,
+  ) {
+    // initialise l'état de la porte, la clé et l'énigme
     this.isOpen = isOpen; // définit l'état initial de la porte
     this.requiredKey = requiredKey; // mémorise la clé nécessaire pour ouvrir la porte
     this.riddleAnswer = riddleAnswer; // mémorise la réponse correcte de l'énigme
@@ -28,8 +32,7 @@ export class Door {
     }
     const keyIndex = playerKeys.indexOf(this.requiredKey); // position de la clé dans l'inventaire
     if (keyIndex === -1) {
-
-        return false; // le joueur n'a pas la bonne clé, la porte reste fermée
+      return false; // le joueur n'a pas la bonne clé, la porte reste fermée
     }
 
     playerKeys.splice(keyIndex, 1); //retire la clé utilisée de l'inventaire
@@ -38,11 +41,22 @@ export class Door {
   }
 
   //Tente de résoudre l'énigme avec la réponse fournie par le joueur
-  solveRiddle(answer:string):boolean {
-    if(answer!==this.riddleAnswer) {
+  solveRiddle(answer: string): boolean {
+    if (answer !== this.riddleAnswer) {
       return false; //mauvaise réponse, l'énigme reste non résolue
     }
     this.riddleSolved = true; //bonne réponse, l'énigme est résolue
     return true;
+  }
+
+  // vérifie si la porte est franchie (ouverte, et énigme résolue si elle en a une)
+  canBeCrossed(): boolean {
+    if (!this.isOpen) {
+      return false; // porte fermée, pas franchissable
+    }
+    if (this.riddleAnswer !== null && !this.riddleSolved) {
+      return false; // une énigme existe mais n'est pas résolue, pas franchissable
+    }
+    return true; // porte ouverte, et pas d'énigme non résolue en travers
   }
 }
