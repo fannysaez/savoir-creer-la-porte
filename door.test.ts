@@ -57,7 +57,7 @@ describe("Door avec une énigme", () => {
     });
 
     it("ne résout pas l'énigme avec une mauvaise réponse", ()=> {
-      const door = new Door(true, null, "rouge");
+      const door = new Door(true, null, "azur");
       const solved = door.solveRiddle("rouge");
 
       expect(solved).toBe(false); // une mauvaise réponse ne résout pas l'énigme
