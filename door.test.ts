@@ -150,3 +150,73 @@ describe("Door avec une alarme", () => {
   expect(door.canBeCrossed()).toBe(true); // l'alarme est désactivée, la porte redevient franchissable
 });
 });
+
+describe("Door du laboratoire - conditions combinées", () => {
+  it("ne peut pas être franchie si aucune condition n'est remplie", () => {
+    const alarm = new Alarm(true); // alarme active par défaut
+    const door = new Door(false, "lab-key", "labyrinthe", alarm);
+
+    expect(door.canBeCrossed()).toBe(false);
+  });
+
+  it("ne peut pas être franchie avec uniquement la clé", () => {
+    const alarm = new Alarm(true);
+    const door = new Door(false, "lab-key", "labyrinthe", alarm);
+    door.open(["lab-key"]);
+
+    expect(door.canBeCrossed()).toBe(false);
+  });
+
+  it("ne peut pas être franchie avec uniquement l'énigme résolue", () => {
+    const alarm = new Alarm(true);
+    const door = new Door(false, "lab-key", "labyrinthe", alarm);
+    door.solveRiddle("labyrinthe");
+
+    expect(door.canBeCrossed()).toBe(false);
+  });
+
+  it("ne peut pas être franchie avec uniquement l'alarme désactivée", () => {
+    const alarm = new Alarm(true);
+    const door = new Door(false, "lab-key", "labyrinthe", alarm);
+    alarm.deactivate(["alarm-code"]);
+
+    expect(door.canBeCrossed()).toBe(false);
+  });
+
+  it("ne peut pas être franchie avec clé + énigme seulement", () => {
+    const alarm = new Alarm(true);
+    const door = new Door(false, "lab-key", "labyrinthe", alarm);
+    door.open(["lab-key"]);
+    door.solveRiddle("labyrinthe");
+
+    expect(door.canBeCrossed()).toBe(false);
+  });
+
+  it("ne peut pas être franchie avec clé + alarme désactivée seulement", () => {
+    const alarm = new Alarm(true);
+    const door = new Door(false, "lab-key", "labyrinthe", alarm);
+    door.open(["lab-key"]);
+    alarm.deactivate(["alarm-code"]);
+
+    expect(door.canBeCrossed()).toBe(false);
+  });
+
+  it("ne peut pas être franchie avec énigme + alarme désactivée seulement", () => {
+    const alarm = new Alarm(true);
+    const door = new Door(false, "lab-key", "labyrinthe", alarm);
+    door.solveRiddle("labyrinthe");
+    alarm.deactivate(["alarm-code"]);
+
+    expect(door.canBeCrossed()).toBe(false);
+  });
+
+  it("peut être franchie quand les trois conditions sont réunies", () => {
+    const alarm = new Alarm(true);
+    const door = new Door(false, "lab-key", "labyrinthe", alarm);
+    door.open(["lab-key"]);
+    door.solveRiddle("labyrinthe");
+    alarm.deactivate(["alarm-code"]);
+
+    expect(door.canBeCrossed()).toBe(true);
+  });
+});
