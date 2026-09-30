@@ -53,7 +53,7 @@ Avant le premier commit, pour ne jamais suivre `node_modules` sur Git :
 echo "node_modules/" > .gitignore
 ```
 
-```
+```bash
 node_modules/
 ```
 
@@ -61,8 +61,11 @@ node_modules/
 
 Deux fichiers TypeScript à la racine :
 
-- **`door.ts`** — le code source : les classes `Porte`, `Joueur` et `Salle`
+- **`door.ts`** — le code source : la classe `Porte`
 - **`door.test.ts`** — la suite de tests Vitest correspondante
+- **`player.ts`** — le code source : la classe `Joueur`
+- **`room.ts`** — le code source : la classe `Salle`
+- **`player.test.ts`** — la suite de tests Vitest correspondante
 
 ## Structure du projet
 
