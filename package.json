@@ -1,23 +1,23 @@
 {
-  "name": "savoir-creer-la-porte",
+  "name": "savoir-gerer-la-porte",
   "version": "1.0.0",
-  "description": "",
+  "description": "Test d'intégration - Rouge puis Vers",
   "main": "index.js",
   "scripts": {
     "test": "vitest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fannysaez/savoir-creer-la-porte.git"
+    "url": "git+https://github.com/fannysaez/savoir-gerer-la-porte.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Fanny",
   "license": "ISC",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/fannysaez/savoir-creer-la-porte/issues"
+    "url": "https://github.com/fannysaez/savoir-gerer-la-porte/issues"
   },
-  "homepage": "https://github.com/fannysaez/savoir-creer-la-porte#readme",
+  "homepage": "https://github.com/fannysaez/savoir-gerer-la-porte#readme",
   "devDependencies": {
     "typescript": "^7.0.2",
     "vitest": "^5.0.2"
