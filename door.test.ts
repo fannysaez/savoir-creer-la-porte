@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { Door } from "./door";
+import { Alarm } from "./alarm";
 
 describe("Door", () => {
   it("ne peut pas être franchie lorsqu'elle est fermée", () => {
@@ -111,5 +112,30 @@ describe("Door - énigme avec tentatives", () => {
     const solved = door.solveRiddle("azur"); // deuxième tentative
 
     expect(solved).toBe(false); // déjà résolue, ne peut pas l'être une seconde fois
+  });
+});
+
+describe("Door avec une alarme", () => {
+  it("ne peut pas être franchie si l'alarme liée est active", () => {
+    const alarm = new Alarm();
+    alarm.activate();
+    const door = new Door(true, null, null, alarm); // ouverte, liée à l'alarme
+
+    expect(door.canBeCrossed()).toBe(false);
+  });
+
+  it("peut être franchie si l'alarme liée est inactive", () => {
+    const alarm = new Alarm();
+    const door = new Door(true, null, null, alarm); // ouverte, liée à l'alarme inactive
+
+    expect(door.canBeCrossed()).toBe(true);
+  });
+
+  it("reste franchissable si elle n'est liée à aucune alarme, même si une alarme existe et est active", () => {
+    const alarm = new Alarm();
+    alarm.activate();
+    const door = new Door(true); // ouverte, pas liée à l'alarme
+
+    expect(door.canBeCrossed()).toBe(true);
   });
 });

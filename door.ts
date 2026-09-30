@@ -1,15 +1,19 @@
+import { Alarm } from "./alarm";
+
 export class Door {
   private isOpen: boolean; // indique si la porte est actuellement ouverte
   private requiredKey: string | null; // la clé nécessaire pour ouvrir la porte (null si aucune clé n'est requise)
   private riddleAnswer: string | null; // réponse correcte de l'énigme (null si aucune énigme)
   private riddleSolved: boolean; // indique si l'énigme a été résolue
   private failedAttempts: number; // nombre de tentatives échouées pour cette énigme
+  private alarm: Alarm | null; // alarme éventuellement liée à cette porte (null si aucune)
 
   // créer une porte fermée par defaut, sauf indication contraire
   constructor(
     isOpen: boolean = false,
     requiredKey: string | null = null,
     riddleAnswer: string | null = null,
+    alarm: Alarm | null = null,
   ) {
     // initialise l'état de la porte, la clé et l'énigme
     this.isOpen = isOpen; // définit l'état initial de la porte
@@ -17,6 +21,7 @@ export class Door {
     this.riddleAnswer = riddleAnswer; // mémorise la réponse correcte de l'énigme
     this.riddleSolved = false; // l'énigme n'est pas résolue par défaut
     this.failedAttempts = 0; // aucune tentative échouée au départ
+    this.alarm = alarm; // mémorise l'alarme liée à cette porte
   }
 
   // Ouvre la porte si le joueur possède la clé requise (ou si aucune clé n'est nécessaire)
@@ -45,14 +50,16 @@ export class Door {
   // vérifie si la porte est franchie (ouverte, et énigme résolue si elle en a une)
   canBeCrossed(): boolean {
     if (!this.isOpen) {
-      return false; // porte fermée, pas franchissable
+      return false;
     }
     if (this.riddleAnswer !== null && !this.riddleSolved) {
-      return false; // une énigme existe mais n'est pas résolue, pas franchissable
+      return false;
     }
-    return true; // porte ouverte, et pas d'énigme non résolue en travers
+    if (this.alarm !== null && this.alarm.isActive()) {
+      return false; // une alarme liée et active bloque le passage
+    }
+    return true;
   }
-
   // Tente de résoudre l'énigme avec la réponse fournie par le joueur
   solveRiddle(answer: string): boolean {
     if (this.riddleSolved) {
